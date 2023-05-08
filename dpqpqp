@@ -1,0 +1,165 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX_PRODUCT_NAME 50
+#define MAX_PRODUCT_DESC 200
+#define MAX_CUSTOMER_NAME 50
+#define MAX_CUSTOMER_ADDRESS 100
+#define MAX_ORDER_DETAILS 5
+
+// 구조체 선언
+typedef struct {
+    int id;
+    char name[MAX_PRODUCT_NAME];
+    char description[MAX_PRODUCT_DESC];
+    int price;
+} Product;
+
+typedef struct {
+    int id;
+    char name[MAX_CUSTOMER_NAME];
+    char address[MAX_CUSTOMER_ADDRESS];
+} Customer;
+
+typedef struct {
+    int id;
+    Customer customer;
+    int productIds[MAX_ORDER_DETAILS];
+    int quantities[MAX_ORDER_DETAILS];
+    int count;
+} Order;
+
+// 함수 선언
+void addProduct(Product* products, int* count);
+void editProduct(Product* products, int count);
+void deleteProduct(Product* products, int* count);
+void listProducts(Product* products, int count);
+
+void addCustomer(Customer* customers, int* count);
+void editCustomer(Customer* customers, int count);
+void deleteCustomer(Customer* customers, int* count);
+void listCustomers(Customer* customers, int count);
+
+void addOrder(Customer* customers, int customerCount, Product* products, int productCount, Order* orders, int* orderCount);
+void editOrder(Customer* customers, int customerCount, Product* products, int productCount, Order* orders, int orderCount);
+void deleteOrder(Customer* customers, int customerCount, Product* products, int productCount, Order* orders, int* orderCount);
+void listOrders(Customer* customers, int customerCount, Product* products, int productCount, Order* orders, int orderCount);
+void listOrderDetails(Order* order, Product* products, int productCount, Customer* customers, int customerCount);
+
+int main() {
+    // 파일에서 상품, 고객, 주문 정보를 불러올 수 있도록 파일 입출력 추가 가능
+    Product products[100];
+    int productCount = 0;
+
+    Customer customers[100];
+    int customerCount = 0;
+
+    Order orders[100];
+    int orderCount = 0;
+
+    int choice;
+    do {
+        printf("1. 상품 관리\n");
+        printf("2. 고객 관리\n");
+        printf("3. 주문 관리\n");
+        printf("4. 종료\n");
+        printf("선택: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                printf("\n[상품 관리]\n");
+                printf("1. 상품 추가\n");
+                printf("2. 상품 수정\n");
+                printf("3. 상품 삭제\n");
+                printf("4. 상품 목록 출력\n");
+                printf("선택: ");
+                scanf("%d", &choice);
+
+                switch (choice) {
+                    case 1:
+                        addProduct(products, &productCount);
+                        break;
+                    case 2:
+                        editProduct(products, productCount);
+                        break;
+                    case 3:
+                        deleteProduct(products, &productCount);
+                        break;
+                    case 4:
+                        listProducts(products, productCount);
+                        break;
+                    default:
+                        printf("잘못된 선택입니다. 상품 관리 메뉴로 돌아갑니다.\n");
+                        break;
+                }
+
+                break;
+            case 2:
+                printf("\n[고객 관리]\n");
+                printf("1. 고객 등록\n");
+                printf("2. 고객 수정\n");
+				printf("3. 고객 삭제\n");
+				printf("4. 고객 목록 출력\n");
+				printf("선택: ");
+                scanf("%d", &choice);
+                switch (choice) {
+    case 1:
+        addCustomer(customers, &customerCount);
+        break;
+    case 2:
+        editCustomer(customers, customerCount);
+        break;
+    case 3:
+        deleteCustomer(customers, &customerCount);
+        break;
+    case 4:
+        listCustomers(customers, customerCount);
+        break;
+    default:
+        printf("잘못된 선택입니다. 고객 관리 메뉴로 돌아갑니다.\n");
+        break;
+}
+
+break;
+case 3:
+    printf("\n[주문 관리]\n");
+    printf("1. 주문 등록\n");
+    printf("2. 주문 수정\n");
+    printf("3. 주문 삭제\n");
+    printf("4. 주문 목록 출력\n");
+    printf("선택: ");
+    scanf("%d", &choice);
+
+    switch (choice) {
+        case 1:
+            addOrder(customers, customerCount, products, productCount, orders, &orderCount);
+            break;
+        case 2:
+            editOrder(customers, customerCount, products, productCount, orders, orderCount);
+            break;
+        case 3:
+            deleteOrder(customers, customerCount, products, productCount, orders, &orderCount);
+            break;
+        case 4:
+            listOrders(customers, customerCount, products, productCount, orders, orderCount);
+            break;
+        default:
+            printf("잘못된 선택입니다. 주문 관리 메뉴로 돌아갑니다.\n");
+            break;
+    }
+
+    break;
+case 4:
+    printf("프로그램을 종료합니다.\n");
+    break;
+default:
+    printf("잘못된 선택입니다. 다시 선택해주세요.\n");
+    break;
+}
+
+} while (choice != 4);
+
+return 0;
+}
