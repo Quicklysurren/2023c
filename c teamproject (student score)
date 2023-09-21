@@ -1,0 +1,111 @@
+메모리 속의 구조체의 값을 sj.txt로 저장하는 코드
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+// 학생 구조체 정의
+struct Student {
+    char name[20];
+    int kor;
+    int eng;
+};
+
+int main() {
+    // 세 명의 학생 정보 초기화
+    struct Student students[3] = {
+        {"Shim", 90, 85},
+        {"Kim", 78, 92},
+        {"Park", 88, 79}
+    };
+
+    // 파일 열기
+    FILE *file = fopen("sj.txt", "w");
+
+    if (file == NULL) {
+        printf("Error opening file.\n");
+        return 1;
+    }
+
+    // 헤더 라인 작성
+    fprintf(file, "Name,Korean,English\n");
+
+    // 각 학생 정보를 파일에 작성
+    for (int i = 0; i < 3; i++) {
+        fprintf(file, "%s,%d,%d\n", students[i].name, students[i].kor, students[i].eng);
+    }
+
+    // 파일 닫기
+    fclose(file);
+
+    printf("Data saved to sj.txt\n");
+
+    return 0;
+}
+
+===========================================================================================================================
+
+  sj.txt를 읽어 와서 출력하는 코드
+  #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+// 학생 구조체 정의를 했다.
+struct Student {
+    char name[20];
+    int kor;
+    int eng;
+    float avg;
+};
+
+int main() {
+    // 파일 열었다.
+    FILE *file = fopen("sj.txt", "r");
+
+    if (file == NULL) {
+        printf("Error opening file.\n");
+        return 1;
+    }
+
+    // 헤더 라인 무시했다.
+    char buffer[100];
+    fgets(buffer, sizeof(buffer), file);
+
+    // 학생 정보 읽어오기 및 출력해왔다.
+    printf("Name\tKorean\tEnglish\tAverage\n");
+    struct Student students[3];
+    int studentCount = 0;
+
+    while (fscanf(file, "%19[^,],%d,%d\n", students[studentCount].name, &students[studentCount].kor, &students[studentCount].eng) == 3) {
+        // 개인별 평균 계산
+        students[studentCount].avg = (float)(students[studentCount].kor + students[studentCount].eng) / 2.0;
+        
+        // 개인별 성적 출력
+        printf("%s\t%d\t\t%d\t\t%.2f\n", students[studentCount].name, students[studentCount].kor, students[studentCount].eng, students[studentCount].avg);
+        
+        studentCount++;
+    }
+
+    // 과목별 평균 계산
+    float korSum = 0.0;
+    float engSum = 0.0;
+
+    for (int i = 0; i < studentCount; i++) {
+        korSum += students[i].kor;
+        engSum += students[i].eng;
+    }
+
+    float korAverage = korSum / studentCount;
+    float engAverage = engSum / studentCount;
+
+    // 과목별 평균 출력
+    printf("Korean Average: %.2f\n", korAverage);
+    printf("English Average: %.2f\n", engAverage);
+
+    // 파일 닫기
+    fclose(file);
+
+    return 0;
+}
+
+  
