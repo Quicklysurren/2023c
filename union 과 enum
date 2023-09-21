@@ -1,0 +1,43 @@
+union이란? 
+-> 서로 다른 데이터 형식을 하나의 메모리 위치에서 공유할 수 있도록 해주는 c언어의 데이터 구조이다.
+
+예제)
+#include <stdio.h>
+
+union Data {
+    int i;
+    float f;
+};
+
+int main() {
+    union Data data;
+
+    data.i = 42;
+    printf("정수값: %d\n", data.i);
+
+    data.f = 3.14;
+    printf("부동 소수점 값: %f\n", data.f);
+
+    return 0;
+}
+
+위의 소스코드는 'union'을 사용하여 동일한 메모리 위치에 정수와 부동 소수점 값을 저장하고 출력하는 예제입니다.
+
+enum이란?
+-> 열거형을 정의하는 c와 c++에서 사용되는 키워드 입니다. 열거형은 연속된 정수 상수를 나타내는 데 사용됩니다.
+    또한 특정 상수 값을 그룹화하고 읽기 쉬운 코드를 작성하게 도와줍니다.
+
+예제)
+#include <stdio.h>
+
+int main() {
+    enum { RED, GREEN, BLUE };
+
+    printf("RED: %d\n", RED);
+    printf("GREEN: %d\n", GREEN);
+    printf("BLUE: %d\n", BLUE);
+
+    return 0;
+}
+
+위의 소스코드는 'enum'을 사용하여 'RED', 'GREEN', BLUE' 의 간단한 열거형 상수를 정의하고, 이 상수들을 출력하는 코드입니다.
